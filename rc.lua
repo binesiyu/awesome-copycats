@@ -43,6 +43,7 @@ do
 end
 -- }}}
 
+local terminal     = "xfce4-terminal"
 -- {{{ Autostart windowless processes
 local function run_once(cmd_arr)
     for _, cmd in ipairs(cmd_arr) do
@@ -55,15 +56,14 @@ local function run_once(cmd_arr)
     end
 end
 
-run_once({ "urxvtd", "unclutter -root" })
+run_once({ terminal, "unclutter -root" })
 -- }}}
 
 -- {{{ Variable definitions
-local chosen_theme = "powerarrow"
+local chosen_theme = "powerarrow-dark"
 local modkey       = "Mod4"
 local altkey       = "Mod1"
-local terminal     = "xfce4-terminal"  or "xterm"
-local editor       = os.getenv("EDITOR") or "nano" or "vi"
+local editor       = os.getenv("EDITOR") or "vim"
 local gui_editor   = "gvim"
 local browser      = "firefox"
 
@@ -75,23 +75,6 @@ awful.layout.layouts = {
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
-    --awful.layout.suit.fair,
-    --awful.layout.suit.fair.horizontal,
-    --awful.layout.suit.spiral,
-    --awful.layout.suit.spiral.dwindle,
-    --awful.layout.suit.max,
-    --awful.layout.suit.max.fullscreen,
-    --awful.layout.suit.magnifier,
-    --awful.layout.suit.corner.nw,
-    --awful.layout.suit.corner.ne,
-    --awful.layout.suit.corner.sw,
-    --awful.layout.suit.corner.se,
-    --lain.layout.cascade,
-    --lain.layout.cascade.tile,
-    --lain.layout.centerwork,
-    --lain.layout.centerwork.horizontal,
-    --lain.layout.termfair,
-    --lain.layout.termfair.center,
 }
 awful.util.taglist_buttons = awful.util.table.join(
                     awful.button({ }, 1, function(t) t:view_only() end),
@@ -145,15 +128,6 @@ awful.util.tasklist_buttons = awful.util.table.join(
                                               awful.client.focus.byidx(-1)
                                           end))
 
-lain.layout.termfair.nmaster           = 3
-lain.layout.termfair.ncol              = 1
-lain.layout.termfair.center.nmaster    = 3
-lain.layout.termfair.center.ncol       = 1
-lain.layout.cascade.tile.offset_x      = 2
-lain.layout.cascade.tile.offset_y      = 32
-lain.layout.cascade.tile.extra_padding = 5
-lain.layout.cascade.tile.nmaster       = 5
-lain.layout.cascade.tile.ncol          = 2
 
 local theme_path = string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme)
 beautiful.init(theme_path)
@@ -489,7 +463,7 @@ clientkeys = awful.util.table.join(
 for i = 1, 9 do
     globalkeys = awful.util.table.join(globalkeys,
         -- View tag only.
-        awful.key({ modkey }, "#" .. i + 9,
+        awful.key({ altkey }, "#" .. i + 9,
                   function ()
                         local screen = awful.screen.focused()
                         local tag = screen.tags[i]
@@ -499,7 +473,7 @@ for i = 1, 9 do
                   end,
                   {description = "view tag #"..i, group = "tag"}),
         -- Toggle tag display.
-        awful.key({ modkey, "Control" }, "#" .. i + 9,
+        awful.key({ altkey, "Control" }, "#" .. i + 9,
                   function ()
                       local screen = awful.screen.focused()
                       local tag = screen.tags[i]
@@ -509,7 +483,7 @@ for i = 1, 9 do
                   end,
                   {description = "toggle tag #" .. i, group = "tag"}),
         -- Move client to tag.
-        awful.key({ modkey, "Shift" }, "#" .. i + 9,
+        awful.key({ altkey, "Shift" }, "#" .. i + 9,
                   function ()
                       if client.focus then
                           local tag = client.focus.screen.tags[i]
@@ -520,7 +494,7 @@ for i = 1, 9 do
                   end,
                   {description = "move focused client to tag #"..i, group = "tag"}),
         -- Toggle tag on focused client.
-        awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
+        awful.key({ altkey, "Control", "Shift" }, "#" .. i + 9,
                   function ()
                       if client.focus then
                           local tag = client.focus.screen.tags[i]
@@ -561,11 +535,11 @@ awful.rules.rules = {
 
     -- Titlebars
     { rule_any = { type = { "dialog", "normal" } },
-      properties = { titlebars_enabled = true } },
+      properties = { titlebars_enabled = false } },
 
     -- Set Firefox to always map on the first tag on screen 1.
     { rule = { class = "Firefox" },
-      properties = { screen = 1, tag = screen[1].tags[1] } },
+      properties = { screen = 1, tag = screen[1].tags[2],maximized = true } },
 
     { rule = { class = "Gimp", role = "gimp-image-window" },
           properties = { maximized = true } },
@@ -637,12 +611,12 @@ client.connect_signal("request::titlebars", function(c)
 end)
 
 -- Enable sloppy focus, so that focus follows mouse.
-client.connect_signal("mouse::enter", function(c)
-    if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
-        and awful.client.focus.filter(c) then
-        client.focus = c
-    end
-end)
+-- client.connect_signal("mouse::enter", function(c)
+    -- if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
+        -- and awful.client.focus.filter(c) then
+        -- client.focus = c
+    -- end
+-- end)
 
 -- No border for maximized clients
 client.connect_signal("focus",

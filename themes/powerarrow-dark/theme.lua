@@ -109,7 +109,7 @@ theme.cal = lain.widget.calendar({
 })
 
 -- Mail IMAP check
-local mailicon = wibox.widget.imagebox(theme.widget_mail)
+-- local mailicon = wibox.widget.imagebox(theme.widget_mail)
 --[[ commented because it needs to be set before use
 mailicon:buttons(awful.util.table.join(awful.button({ }, 1, function () awful.spawn(mail) end)))
 local mail = lain.widget.imap({
@@ -168,46 +168,46 @@ local cpu = lain.widget.cpu({
 })
 
 -- Coretemp
-local tempicon = wibox.widget.imagebox(theme.widget_temp)
-local temp = lain.widget.temp({
-    settings = function()
-        widget:set_markup(markup.font(theme.font, " " .. coretemp_now .. "°C "))
-    end
-})
+-- local tempicon = wibox.widget.imagebox(theme.widget_temp)
+-- local temp = lain.widget.temp({
+    -- settings = function()
+        -- widget:set_markup(markup.font(theme.font, " " .. coretemp_now .. "°C "))
+    -- end
+-- })
 
 -- / fs
-local fsicon = wibox.widget.imagebox(theme.widget_hdd)
-theme.fs = lain.widget.fs({
-    options  = "--exclude-type=tmpfs",
-    notification_preset = { fg = theme.fg_normal, bg = theme.bg_normal, font = "xos4 Terminus 10" },
-    settings = function()
-        widget:set_markup(markup.font(theme.font, " " .. fs_now.used .. "% "))
-    end
-})
+-- local fsicon = wibox.widget.imagebox(theme.widget_hdd)
+-- theme.fs = lain.widget.fs({
+    -- options  = "--exclude-type=tmpfs",
+    -- notification_preset = { fg = theme.fg_normal, bg = theme.bg_normal, font = "xos4 Terminus 10" },
+    -- settings = function()
+        -- widget:set_markup(markup.font(theme.font, " " .. fs_now.used .. "% "))
+    -- end
+-- })
 
 -- Battery
-local baticon = wibox.widget.imagebox(theme.widget_battery)
-local bat = lain.widget.bat({
-    settings = function()
-        if bat_now.status ~= "N/A" then
-            if bat_now.ac_status == 1 then
-                widget:set_markup(markup.font(theme.font, " AC "))
-                baticon:set_image(theme.widget_ac)
-                return
-            elseif not bat_now.perc and tonumber(bat_now.perc) <= 5 then
-                baticon:set_image(theme.widget_battery_empty)
-            elseif not bat_now.perc and tonumber(bat_now.perc) <= 15 then
-                baticon:set_image(theme.widget_battery_low)
-            else
-                baticon:set_image(theme.widget_battery)
-            end
-            widget:set_markup(markup.font(theme.font, " " .. bat_now.perc .. "% "))
-        else
-            widget:set_markup(markup.font(theme.font, " AC "))
-            baticon:set_image(theme.widget_ac)
-        end
-    end
-})
+-- local baticon = wibox.widget.imagebox(theme.widget_battery)
+-- local bat = lain.widget.bat({
+    -- settings = function()
+        -- if bat_now.status ~= "N/A" then
+            -- if bat_now.ac_status == 1 then
+                -- widget:set_markup(markup.font(theme.font, " AC "))
+                -- baticon:set_image(theme.widget_ac)
+                -- return
+            -- elseif not bat_now.perc and tonumber(bat_now.perc) <= 5 then
+                -- baticon:set_image(theme.widget_battery_empty)
+            -- elseif not bat_now.perc and tonumber(bat_now.perc) <= 15 then
+                -- baticon:set_image(theme.widget_battery_low)
+            -- else
+                -- baticon:set_image(theme.widget_battery)
+            -- end
+            -- widget:set_markup(markup.font(theme.font, " " .. bat_now.perc .. "% "))
+        -- else
+            -- widget:set_markup(markup.font(theme.font, " AC "))
+            -- baticon:set_image(theme.widget_ac)
+        -- end
+    -- end
+-- })
 
 -- ALSA volume
 local volicon = wibox.widget.imagebox(theme.widget_vol)
@@ -297,8 +297,8 @@ function theme.at_screen_connect(s)
             arrl_dl,
             volicon,
             theme.volume.widget,
-            arrl_ld,
-            wibox.container.background(mailicon, theme.bg_focus),
+            -- arrl_ld,
+            -- wibox.container.background(mailicon, theme.bg_focus),
             --wibox.container.background(mail.widget, theme.bg_focus),
             arrl_dl,
             memicon,
@@ -306,15 +306,15 @@ function theme.at_screen_connect(s)
             arrl_ld,
             wibox.container.background(cpuicon, theme.bg_focus),
             wibox.container.background(cpu.widget, theme.bg_focus),
-            arrl_dl,
-            tempicon,
-            temp.widget,
-            arrl_ld,
-            wibox.container.background(fsicon, theme.bg_focus),
-            wibox.container.background(theme.fs.widget, theme.bg_focus),
-            arrl_dl,
-            baticon,
-            bat.widget,
+            -- arrl_dl,
+            -- tempicon,
+            -- temp.widget,
+            -- arrl_ld,
+            -- wibox.container.background(fsicon, theme.bg_focus),
+            -- wibox.container.background(theme.fs.widget, theme.bg_focus),
+            -- arrl_dl,
+            -- baticon,
+            -- bat.widget,
             arrl_ld,
             wibox.container.background(neticon, theme.bg_focus),
             wibox.container.background(net.widget, theme.bg_focus),
