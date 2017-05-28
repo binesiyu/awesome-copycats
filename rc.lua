@@ -192,7 +192,8 @@ root.buttons(awful.util.table.join(
 globalkeys = awful.util.table.join(
     -- Take a screenshot
     -- https://github.com/copycat-killer/dots/blob/master/bin/screenshot
-    awful.key({ altkey }, "p", function() os.execute("screenshot") end),
+    awful.key({ altkey }, "p", function() os.execute("~/bin/screenshot") end,
+              {description="screenshot", group="Run"}),
 
     -- Hotkeys
     awful.key({ altkey,           }, "s",      hotkeys_popup.show_help,
