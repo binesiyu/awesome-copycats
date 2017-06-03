@@ -43,7 +43,8 @@ do
 end
 -- }}}
 
-local terminal     = "xfce4-terminal"
+local terminal     = "urxvt"
+local terminal2     = "xfce4-terminal"
 -- {{{ Autostart windowless processes
 local function run_once(cmd_arr)
     for _, cmd in ipairs(cmd_arr) do
@@ -321,6 +322,8 @@ globalkeys = awful.util.table.join(
     -- Standard program
     awful.key({ altkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
+    awful.key({ altkey, "Control" }, "Return", function () awful.spawn(terminal2) end,
+              {description = "open a terminal urxvt", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
@@ -408,8 +411,50 @@ globalkeys = awful.util.table.join(
         end,
               {description = "volume 0", group = "ALSA"}
         ),
-
+    awful.key({}, "XF86AudioRaiseVolume",
+        function ()
+            os.execute(string.format("amixer set %s 1%%+", beautiful.volume.channel))
+            beautiful.volume.update()
+        end),
+    awful.key({}, "XF86AudioLowerVolume",
+        function ()
+            os.execute(string.format("amixer set %s 1%%-", beautiful.volume.channel))
+            beautiful.volume.update()
+        end),
+    awful.key({}, "XF86AudioMute",
+        function ()
+            os.execute(string.format("amixer set %s toggle", beautiful.volume.channel))
+            beautiful.volume.update()
+        end),
     -- MPD control
+    awful.key({}, "XF86AudioPlay",
+        function ()
+            awful.spawn.with_shell("mpc toggle")
+            beautiful.mpd.update()
+        end,
+              {description = "MPD toggle", group = "MPD"}
+        ),
+    awful.key({}, "XF86AudioStop",
+        function ()
+            awful.spawn.with_shell("mpc stop")
+            beautiful.mpd.update()
+        end,
+              {description = "MPD stop", group = "MPD"}
+        ),
+    awful.key({}, "XF86AudioPrev",
+        function ()
+            awful.spawn.with_shell("mpc prev")
+            beautiful.mpd.update()
+        end,
+              {description = "MPD prev", group = "MPD"}
+        ),
+    awful.key({}, "XF86AudioNext",
+        function ()
+            awful.spawn.with_shell("mpc next")
+            beautiful.mpd.update()
+        end,
+              {description = "MPD next", group = "MPD"}
+        ),
     awful.key({ altkey, "Control" }, "Up",
         function ()
             awful.spawn.with_shell("mpc toggle")
@@ -454,10 +499,10 @@ globalkeys = awful.util.table.join(
         ),
 
     -- Copy primary to clipboard (terminals to gtk)
-    awful.key({ modkey }, "c", function () awful.spawn("xsel | xsel -i -b") end,
+    awful.key({ modkey }, "c", function () awful.spawn.with_shell("xsel | xsel -i -b") end,
             {description = "clipboard terminal",group = "clipboard"}),
     -- Copy clipboard to primary (gtk to terminals)
-    awful.key({ modkey }, "v", function () awful.spawn("xsel -b | xsel") end,
+    awful.key({ modkey }, "v", function () awful.spawn.with_shell("xsel -b | xsel") end,
             {description = "clipboard gtk",group = "clipboard"}),
 
     -- User programs
@@ -603,17 +648,46 @@ awful.rules.rules = {
      }
     },
 
+-- Floating clients.
+    { rule_any = {
+        instance = {
+          "DTA",  -- Firefox addon DownThemAll.
+          "copyq",  -- Includes session name in class.
+        },
+        class = {
+          "Arandr",
+          "Gpick",
+          "Kruler",
+          "MessageWin",  -- kalarm.
+          "Sxiv",
+          "Wpa_gui",
+          "pinentry",
+          "veromix",
+          "xtightvncviewer"},
+
+        name = {
+          "Event Tester",  -- xev.
+        },
+        role = {
+          "AlarmWindow",  -- Thunderbird's calendar.
+          "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
+        }
+      }, properties = { floating = true }},
+
     -- Titlebars
     { rule_any = { type = { "dialog", "normal" } },
       properties = { titlebars_enabled = false } },
 
     -- Set Firefox to always map on the first tag on screen 1.
     { rule = { class = "Firefox" },
-      properties = { screen = 1, tag = screen[1].tags[2],maximized = true } },
+      properties = { opacity = 0.8,screen = 1, tag = screen[1].tags[2],maximized = true } },
       -- properties = { screen = 1, tag = screen[1].tags[2]} },
 
     { rule = { class = "Gimp", role = "gimp-image-window" },
           properties = { maximized = true } },
+
+     { rule = { instance = "plugin-container" },
+        properties = { floating = true,maximized = false }},
 }
 -- }}}
 
