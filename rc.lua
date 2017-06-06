@@ -43,8 +43,8 @@ do
 end
 -- }}}
 
-local terminal     = "urxvt"
-local terminal2     = "xfce4-terminal"
+local terminal     = "xfce4-terminal"
+local terminal2    = "urxvt"
 -- {{{ Autostart windowless processes
 local function run_once(cmd_arr)
     for _, cmd in ipairs(cmd_arr) do
@@ -680,7 +680,8 @@ awful.rules.rules = {
 
     -- Set Firefox to always map on the first tag on screen 1.
     { rule = { class = "Firefox" },
-      properties = { opacity = 0.8,screen = 1, tag = screen[1].tags[2],maximized = true } },
+      -- properties = { opacity = 0.8,screen = 1, tag = screen[1].tags[2],maximized = true } },
+      properties = {screen = 1, tag = screen[1].tags[2],maximized = true } },
       -- properties = { screen = 1, tag = screen[1].tags[2]} },
 
     { rule = { class = "Gimp", role = "gimp-image-window" },
