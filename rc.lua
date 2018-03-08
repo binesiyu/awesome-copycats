@@ -66,12 +66,12 @@ local modkey       = "Mod4"
 local altkey       = "Mod1"
 local editor       = os.getenv("EDITOR") or "vim"
 local gui_editor   = "gvim"
-local browser      = "firefox"
+local browser      = "google-chrome-stable"
 
 awful.util.terminal = terminal
 awful.util.tagnames = {
          '☠:Vim',  
-         '♨:Firefox', 
+         '♨:Chrome', 
          '☭:IRC',
          '✇:IDE',
            }
@@ -651,7 +651,7 @@ awful.rules.rules = {
 -- Floating clients.
     { rule_any = {
         instance = {
-          "DTA",  -- Firefox addon DownThemAll.
+          "DTA",  -- Chrome addon DownThemAll.
           "copyq",  -- Includes session name in class.
         },
         class = {
@@ -678,8 +678,8 @@ awful.rules.rules = {
     { rule_any = { type = { "dialog", "normal" } },
       properties = { titlebars_enabled = false } },
 
-    -- Set Firefox to always map on the first tag on screen 1.
-    { rule = { class = "Firefox" },
+    -- Set Chrome to always map on the first tag on screen 1.
+    { rule = { class = "Google-chrome" },
       -- properties = { opacity = 0.8,screen = 1, tag = screen[1].tags[2],maximized = true } },
       properties = {screen = 1, tag = screen[1].tags[2],maximized = true } },
       -- properties = { screen = 1, tag = screen[1].tags[2]} },

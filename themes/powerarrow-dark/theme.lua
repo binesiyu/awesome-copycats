@@ -285,13 +285,13 @@ function theme.at_screen_connect(s)
             --spr,
             s.mytaglist,
             s.mypromptbox,
+            wibox.widget.systray(),
             spr,
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            wibox.widget.systray(),
-            spr,
+            -- spr,
             arrl_ld,
             wibox.container.background(neticon, theme.bg_focus),
             wibox.container.background(net.widget, theme.bg_focus),
