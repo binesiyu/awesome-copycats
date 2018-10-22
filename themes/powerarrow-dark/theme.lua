@@ -186,28 +186,34 @@ local cpu = lain.widget.cpu({
 -- })
 
 -- Battery
--- local baticon = wibox.widget.imagebox(theme.widget_battery)
--- local bat = lain.widget.bat({
-    -- settings = function()
-        -- if bat_now.status ~= "N/A" then
-            -- if bat_now.ac_status == 1 then
-                -- widget:set_markup(markup.font(theme.font, " AC "))
-                -- baticon:set_image(theme.widget_ac)
-                -- return
-            -- elseif not bat_now.perc and tonumber(bat_now.perc) <= 5 then
-                -- baticon:set_image(theme.widget_battery_empty)
-            -- elseif not bat_now.perc and tonumber(bat_now.perc) <= 15 then
-                -- baticon:set_image(theme.widget_battery_low)
-            -- else
-                -- baticon:set_image(theme.widget_battery)
-            -- end
-            -- widget:set_markup(markup.font(theme.font, " " .. bat_now.perc .. "% "))
-        -- else
-            -- widget:set_markup(markup.font(theme.font, " AC "))
-            -- baticon:set_image(theme.widget_ac)
-        -- end
-    -- end
--- })
+local baticon = wibox.widget.imagebox(theme.widget_battery)
+local bat = lain.widget.bat({
+    batteries = {"BAT1"},
+    ac = "ACAD",
+    settings = function()
+        if bat_now.status ~= "N/A" then
+            if bat_now.ac_status == 1 then
+                if bat_now.perc then
+                    widget:set_markup(markup.font(theme.font, " AC " .. bat_now.perc .. "%(".. bat_now.time .. ")"))
+                else
+                    widget:set_markup(markup.font(theme.font, " AC "))
+                end
+                baticon:set_image(theme.widget_ac)
+                return
+            elseif not bat_now.perc and tonumber(bat_now.perc) <= 5 then
+                baticon:set_image(theme.widget_battery_empty)
+            elseif not bat_now.perc and tonumber(bat_now.perc) <= 15 then
+                baticon:set_image(theme.widget_battery_low)
+            else
+                baticon:set_image(theme.widget_battery)
+            end
+            widget:set_markup(markup.font(theme.font, " " .. bat_now.perc .. "% "))
+        else
+            widget:set_markup(markup.font(theme.font, " AC "))
+            baticon:set_image(theme.widget_ac)
+        end
+    end
+})
 
 -- ALSA volume
 local volicon = wibox.widget.imagebox(theme.widget_vol)
@@ -292,6 +298,9 @@ function theme.at_screen_connect(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             -- spr,
+            -- arrl_dl,
+            baticon,
+            bat,
             arrl_ld,
             wibox.container.background(neticon, theme.bg_focus),
             wibox.container.background(net.widget, theme.bg_focus),

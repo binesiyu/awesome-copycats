@@ -1,9 +1,9 @@
 
 --[[
-                                       
-     Awesome WM configuration template 
-     github.com/copycat-killer         
-                                       
+
+     Awesome WM configuration template
+     github.com/copycat-killer
+
 --]]
 
 -- {{{ Required libraries
@@ -70,8 +70,8 @@ local browser      = "google-chrome-stable"
 
 awful.util.terminal = terminal
 awful.util.tagnames = {
-         '☠:Vim',  
-         '♨:Chrome', 
+         '☠:Vim',
+         '♨:Chrome',
          '☭:IRC',
          '✇:IDE',
            }
@@ -287,7 +287,7 @@ globalkeys = awful.util.table.join(
         {description = "go back", group = "client"}),
 
     -- Show/Hide Wibox
-    awful.key({ modkey }, "b", function ()
+    awful.key({ altkey }, "b", function ()
         for s in screen do
             s.mywibox.visible = not s.mywibox.visible
             if s.mybottomwibox then
@@ -346,7 +346,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
               {description = "select previous", group = "layout"}),
 
-    awful.key({ modkey, "Control" }, "n",
+    awful.key({ modkey, "Shift" }, "n",
               function ()
                   local c = awful.client.restore()
                   -- Focus restored client
@@ -363,7 +363,7 @@ globalkeys = awful.util.table.join(
         ),
 
     -- Widgets popups
-    --[[ 
+    --[[
     awful.key({ altkey, }, "c", function () lain.widget.calendar.show(7) end,
               {description = "calendar", group = "widgets"}
         ),
@@ -372,7 +372,7 @@ globalkeys = awful.util.table.join(
         ),
     awful.key({ altkey, }, "w", function () if beautiful.weather then beautiful.weather.show(7) end end,
               {description = "weather", group = "widgets"}
-        ), 
+        ),
      --]]
 
     -- ALSA volume control
